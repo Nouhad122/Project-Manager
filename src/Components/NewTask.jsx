@@ -1,12 +1,17 @@
 import React, {useRef} from 'react';
 import Button from './Button';
 
-const NewTask = ({handleTasks}) => {
+const NewTask = ({handleTasks, tasks}) => {
     const taskRef = useRef();
 
     const handleEnteredTask = () =>{
         const enteredTask = taskRef.current.value;
+        if(enteredTask.trim() === '' || tasks.length >= 15){
+            return;
+        }
         handleTasks(enteredTask);
+
+        taskRef.current.value = '';
     }
 
     return (

@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProjectSidebar from './Components/ProjectSidebar.jsx';
 import NewProject from './Components/NewProject.jsx';
 import NoProjectSelected from './Components/NoProjectSelected.jsx';
 import SelectedProject from './Components/SelectedProject.jsx';
 
 const App = () => {
-  const [projectsState, setProjectsState] = useState({
-    selectedProjectId: undefined,
-    projects: [],
-    tasks: []
+  const [projectsState, setProjectsState] = useState(() => {
+    const savedState = localStorage.getItem('projectsState');
+    return savedState
+      ? JSON.parse(savedState)
+      : {
+          selectedProjectId: undefined,
+          projects: [],
+          tasks: [],
+        };
   });
+
+  useEffect(() => {
+    localStorage.setItem('projectsState', JSON.stringify(projectsState));
+  }, [projectsState]);
+
   
   const handleAddingMood = () =>{
     setProjectsState(prevState =>{
@@ -97,7 +107,7 @@ const App = () => {
     content = <SelectedProject project={selectedProject} handleDeleteProject={handleDeleteProject}
      tasks={filteredTasks} handleTasks={handleTasks} handleDeleteTask={handleDeleteTask}/>
   }
-console.log(projectsState);
+
   return (
     <main className='h-screen py-4 px-4 flex gap-12'>
       <ProjectSidebar handleAddingMood={handleAddingMood} projects={projectsState.projects}

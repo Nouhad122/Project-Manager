@@ -27,7 +27,11 @@ const NewProject = ({handleInputsSave, handleCancelingMood}) => {
         description: enteredDescription,
         dueDate: enteredDueDate
       })
-    }
+    } 
+
+    titleRef.current.value = '';
+    descriptionRef.current.value = '';
+    dueDateRef.current.value = '';
    
   }
 
